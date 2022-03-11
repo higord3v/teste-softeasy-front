@@ -1,42 +1,33 @@
-import { useState } from "react";
-import styled from "styled-components";
+import { useState, useEffect } from "react";
+import { ContainerModal, Form, Input, Button } from "../styles";
 
-const ContainerModal = styled.div`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.6);
-`;
-const Form = styled.form`
-  display: flex;
-  gap: 0.3rem;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  height: 50vh;
-  width: 30rem;
-  background-color: #fff;
-  border-radius: 1rem;
-`;
-const Input = styled.input`
-  all: unset;
-  padding: 0.2rem;
-  font-size: 2rem;
-  border: 0.2rem solid tomato;
-  border-radius: 0.3rem;
-`;
+const Modal = ({ currentBook, open, setOpen }) => {
+  const [inputs, setInputs] = useState({
+    name: "",
+    author: "",
+    description: "",
+    rating: "",
+  });
 
-const Modal = () => {
-  const [open, setOpen] = useState(true);
+  const handleInputsOnChange = (target) => {
+    setInputs({ ...inputs, [target.name]: target.value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    setOpen(false);
   };
+
+  useEffect(() => {
+    if (!open) return;
+    setInputs({
+      name: currentBook.name,
+      author: currentBook.author,
+      description: currentBook.description,
+      rating: currentBook.rating,
+    });
+  }, [open]);
 
   return (
     <ContainerModal
@@ -51,20 +42,53 @@ const Modal = () => {
         <label htmlFor="name" style={{ fontSize: "2rem" }}>
           Nome
         </label>
-        <Input type="text" id="name" />
+        <Input
+          value={inputs.name}
+          onChange={(e) => handleInputsOnChange(e.target)}
+          type="text"
+          required
+          id="name"
+          name="name"
+        />
         <label htmlFor="author" style={{ fontSize: "2rem" }}>
           Autor
         </label>
-        <Input type="text" id="author" />
+        <Input
+          onChange={(e) => handleInputsOnChange(e.target)}
+          value={inputs.author}
+          type="text"
+          id="author"
+          name="author"
+          required
+        />
         <label htmlFor="description" style={{ fontSize: "2rem" }}>
           Descrição
         </label>
-        <Input type="text" id="description" />
+        <Input
+          onChange={(e) => handleInputsOnChange(e.target)}
+          value={inputs.description}
+          type="text"
+          required
+          id="description"
+          name="description"
+        />
         <label htmlFor="rating" style={{ fontSize: "2rem" }}>
           Avaliação
         </label>
-        <Input type="number" min="1" max="10" id="rating" />
-        <button action="submit">Atualizar</button>
+        <Input
+          onChange={(e) => handleInputsOnChange(e.target)}
+          value={inputs.rating}
+          name="rating"
+          type="number"
+          required
+          min="1"
+          max="10"
+          id="rating"
+          style={{ textAlign: "center" }}
+        />
+        <Button primary action="submit">
+          Atualizar
+        </Button>
       </Form>
     </ContainerModal>
   );
