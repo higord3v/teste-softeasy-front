@@ -4,16 +4,18 @@ import Modal from "./components/Modal";
 import {
   Container,
   Section,
-  Book,
+  BookCard,
   Info,
   Button,
   ButtonsContainer,
-  Title
+  Title,
 } from "./styles";
 
 const App = () => {
   const [books, setBooks] = useState([]);
   const [open, setOpen] = useState(false);
+  const [action, setAction] = useState("");
+
   const [currentBook, setCurrentBook] = useState({});
   const getBooks = async () => {
     try {
@@ -31,33 +33,56 @@ const App = () => {
     getBooks();
   }, []);
 
-  const handleBookOnClick = (clickedBook) => {
+  const handleEditOnClick = (clickedBook) => {
     setCurrentBook(clickedBook);
     setOpen(true);
+    setAction("edit");
+  };
+
+  const handleDeleteOnClick = (clickedBook) => {
+    setOpen(true);
+    setCurrentBook(clickedBook);
+    setAction("delete");
+  };
+
+  const handleAddBookOnClick = () => {
+    setOpen(true);
+    setAction("add");
   };
 
   return (
     <Container>
       <Title>Livraria Softeasy</Title>
       <Section>
-        <Button especial>+</Button>
+        <Button onClick={() => handleAddBookOnClick()} especial>
+          +
+        </Button>
         {books &&
           books.map((book) => (
-            <Book key={book.id} onClick={() => handleBookOnClick(book)}>
+            <BookCard key={book.id}>
               <Info>Nome: {book.name}</Info>
               <br />
-              <Info>Avaliação: {book.rating}</Info>
               <br />
               <Info>Autor: {book.author}</Info>
               <br />
               <Info>Descrição: {book.description}</Info>
+              <Info>Avaliação: {book.rating}</Info>
               <ButtonsContainer>
-                <Button primary>Editar</Button>
-                <Button secundary>Excluir</Button>
+                <Button onClick={() => handleEditOnClick(book)} primary>
+                  Editar
+                </Button>
+                <Button onClick={() => handleDeleteOnClick(book)} secundary>
+                  Excluir
+                </Button>
               </ButtonsContainer>
-            </Book>
+            </BookCard>
           ))}
-        <Modal currentBook={currentBook} open={open} setOpen={setOpen} />
+        <Modal
+          currentBook={currentBook}
+          open={open}
+          setOpen={setOpen}
+          action={action}
+        />
       </Section>
     </Container>
   );

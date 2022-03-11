@@ -39,14 +39,14 @@ export const Info = styled.span`
   color: blue;
 `;
 
-export const Book = styled.li`
+export const BookCard = styled.div`
   margin-bottom: 1rem;
   display: flex;
+  gap: 1rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 0.5rem 0.5rem;
-  list-style: none;
   border-radius: 0.5rem;
   width: 30rem;
   height: 30rem;
@@ -54,7 +54,6 @@ export const Book = styled.li`
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2);
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
 `;
 
 // Modal
@@ -100,14 +99,12 @@ export const Button = styled.button`
     props.primary &&
     css`
       background: blue;
-      margin-top: 1.5rem;
       padding: 0.5rem 1.7rem;
     `}
   ${(props) =>
     props.secundary &&
     css`
       background: red;
-      margin-top: 1.5rem;
       padding: 0.5rem 1.7rem;
     `}
     ${(props) =>
