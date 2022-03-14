@@ -4,8 +4,10 @@ import {
   Form,
   Input,
   Button,
+  CancelButton,
   ButtonsContainer,
 } from "../styles";
+import axios from "../services/axios";
 
 const Modal = ({ currentBook, open, setOpen, action }) => {
   const [inputs, setInputs] = useState({
@@ -21,27 +23,64 @@ const Modal = ({ currentBook, open, setOpen, action }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    setOpen(false);
+    selectRequest();
   };
 
   useEffect(() => {
-    if (action === "add" || !open) {
+    if (action !== "edit")
       return setInputs({
         name: "",
         author: "",
         description: "",
         rating: "",
       });
-    }
 
-    setInputs({
-      name: currentBook.name,
-      author: currentBook.author,
-      description: currentBook.description,
-      rating: currentBook.rating,
-    });
+    if (open) {
+      setInputs({
+        name: currentBook.name,
+        author: currentBook.author,
+        description: currentBook.description,
+        rating: currentBook.rating,
+      });
+    }
   }, [open]);
+
+  const selectRequest = () => {
+    if (action === "add") return addBook();
+    if (action === "edit") return editBook();
+    return eraseBook();
+  };
+
+  const addBook = async () => {
+    try {
+      await axios.post(`/book`, inputs);
+      return setOpen(false);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const editBook = async () => {
+    try {
+      const response = await axios.put(`/book/${currentBook.id}`,
+        inputs
+      );
+
+      return setOpen(false);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const eraseBook = async () => {
+    try {
+      await axios.delete(`/book/${currentBook.id}`
+      );
+      return setOpen(false);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <ContainerModal
@@ -112,9 +151,9 @@ const Modal = ({ currentBook, open, setOpen, action }) => {
             {action === "delete" && "Sim"}
             {action === "add" && "Adicionar"}
           </Button>
-          <Button secundary action="submit">
+          <CancelButton secundary onClick={() => setOpen(false)} action="none">
             {action === "delete" ? "Não" : "Cancelar"}
-          </Button>
+          </CancelButton>
         </ButtonsContainer>
       </Form>
     </ContainerModal>

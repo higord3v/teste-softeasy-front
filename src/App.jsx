@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "./services/axios";
 import Modal from "./components/Modal";
 import {
   Container,
@@ -15,33 +15,37 @@ const App = () => {
   const [books, setBooks] = useState([]);
   const [open, setOpen] = useState(false);
   const [action, setAction] = useState("");
-
   const [currentBook, setCurrentBook] = useState({});
+
   const getBooks = async () => {
     try {
-      const response = await axios.get(
-        "https://softeasy-teste-vaga.rafaelbispo.dev.br/books"
-      );
+      const response = await axios.get('/book');
       const { data } = response;
-      return setBooks(data);
+      setBooks([...data]);
     } catch (error) {
       console.log(error.message);
     }
   };
 
   useEffect(() => {
-    getBooks();
-  }, []);
+    const listBooks = () => {
+      getBooks();
+    };
+    listBooks();
+  }, [open]);
+
+  const handleSetCurrentBook = (clickedBook) => {
+    setOpen(true);
+    setCurrentBook({ ...clickedBook });
+  };
 
   const handleEditOnClick = (clickedBook) => {
-    setCurrentBook(clickedBook);
-    setOpen(true);
+    handleSetCurrentBook(clickedBook);
     setAction("edit");
   };
 
   const handleDeleteOnClick = (clickedBook) => {
-    setOpen(true);
-    setCurrentBook(clickedBook);
+    handleSetCurrentBook(clickedBook);
     setAction("delete");
   };
 
@@ -82,6 +86,7 @@ const App = () => {
           open={open}
           setOpen={setOpen}
           action={action}
+          setBooks={setBooks}
         />
       </Section>
     </Container>

@@ -123,6 +123,42 @@ export const Button = styled.button`
     `}
 `;
 
+export const CancelButton = styled.div`
+  all: unset;
+  border-radius: 1rem;
+  background: green;
+  color: white;
+  font-size: 1.5rem;
+  padding: 0.5rem 3.5rem;
+  cursor: pointer;
+  ${(props) =>
+    props.primary &&
+    css`
+      background: blue;
+      padding: 0.5rem 1.7rem;
+    `}
+  ${(props) =>
+    props.secundary &&
+    css`
+      background: red;
+      padding: 0.5rem 1.7rem;
+    `}
+    ${(props) =>
+    props.especial &&
+    css`
+      font-weight: bold;
+      font-size: 3.2rem;
+      padding: 1rem 3rem;
+      position: fixed;
+      bottom: 2rem;
+      right: 3vw;
+      @media (max-width: 800px) {
+        font-size: 3.2rem;
+        padding: 0.3rem 1.5rem;
+      }
+    `}
+`;
+
 export const ButtonsContainer = styled.div`
   display: flex;
   gap: 1.5rem;
