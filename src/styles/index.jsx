@@ -31,12 +31,16 @@ export const Section = styled.div`
 
 export const Info = styled.span`
   all: unset;
+  width: 20rem;
   font-size: 1.6rem;
   font-family: sans-serif;
   color: white;
   font-weight: bold;
   border-bottom: 0.2rem solid blue;
   color: blue;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;  
 `;
 
 export const BookCard = styled.div`
@@ -48,12 +52,11 @@ export const BookCard = styled.div`
   align-items: center;
   padding: 0.5rem 0.5rem;
   border-radius: 0.5rem;
+  border: 0.1rem solid black(0, 0, 0, 0.7);
   width: 30rem;
   height: 30rem;
   background-color: rgba(255, 255, 255, 0.4);
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2);
-  white-space: nowrap;
-  overflow: hidden;
 `;
 
 // Modal

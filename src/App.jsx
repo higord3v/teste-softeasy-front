@@ -69,7 +69,7 @@ const App = () => {
               <br />
               <Info>Autor: {book.author}</Info>
               <br />
-              <Info>Descrição: {book.description}</Info>
+              <Info style={{textAlign: 'left'}}>Descrição: {book.description}</Info>
               <Info>Avaliação: {book.rating}</Info>
               <ButtonsContainer>
                 <Button onClick={() => handleEditOnClick(book)} primary>
