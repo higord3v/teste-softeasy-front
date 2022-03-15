@@ -1,4 +1,4 @@
-# Front-end do Teste Softeasy
+# Front-end do Teste Softeasy (CÓDIGO FINAL NA BRANCH MASTER)
 
 ![Screenshot 2022-03-14 20 48 58](https://user-images.githubusercontent.com/85526418/158279698-f79f3920-cc79-4679-b352-44d44f1376f9.png)
 
