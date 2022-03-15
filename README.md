@@ -11,8 +11,10 @@
 
 - Digite *npm install* para instalar dependências;
 
-- Entre com a url http://localhost:3000 
+- Digite *npm run dev* para executar o projeto;
 
-## Depois de realizar os passos acima corretamente e se certificar de executar a API, poderá iniciar os testes
+- Entre com a url http://localhost:3000 no navegador
+
+## P.S.: Depois de realizar os passos acima corretamente e se certificar de executar a API, poderá iniciar os testes
 
 ### bons testes!
