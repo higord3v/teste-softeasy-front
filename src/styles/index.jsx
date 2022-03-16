@@ -7,7 +7,7 @@ export const Container = styled.div`
   background: rgba(255, 255, 200);
 `;
 
-export const Title = styled.h1`
+export const Title = styled.h1` 
   text-align: center;
   font-size: 3.5rem;
   color: blue;
@@ -22,7 +22,6 @@ export const Section = styled.div`
   min-height: 100vh;
   align-items: center;
   justify-content: center;
-
   @media (max-width: 800px) {
     flex-direction: column;
     padding: 1rem;
@@ -85,9 +84,38 @@ export const Form = styled.form`
 export const Input = styled.input`
   all: unset;
   padding: 0.2rem;
-  font-size: 2rem;
+  font-size: 1.7rem;
+  font-weight: normal;
   border: 0.2rem solid tomato;
   border-radius: 0.3rem;
+  cursor: text;
+  ${(props) =>
+    props.search &&
+    css`
+      min-width: 10rem;
+    `}
+`;
+
+export const Label = styled.label`
+font-size: 1.7rem;
+font-weight: bold;
+text-align: center;
+display: flex;
+flex-direction: column;
+${(props) =>
+  props.search &&
+  css`
+      padding: 0.5rem 1.7rem;
+      justify-content: center;
+      align-items: center;
+    `}
+`;
+
+export const Span = styled.label`
+font-size: 1rem;
+font-weight: bold;
+text-align: center;
+color: red;
 `;
 
 export const Button = styled.button`
@@ -111,8 +139,8 @@ export const Button = styled.button`
       padding: 0.5rem 1.7rem;
     `}
     ${(props) =>
-    props.especial &&
-    css`
+      props.especial &&
+      css`
       font-weight: bold;
       font-size: 3.2rem;
       padding: 1rem 3rem;
@@ -147,8 +175,8 @@ export const CancelButton = styled.div`
       padding: 0.5rem 1.7rem;
     `}
     ${(props) =>
-    props.especial &&
-    css`
+      props.especial &&
+      css`
       font-weight: bold;
       font-size: 3.2rem;
       padding: 1rem 3rem;

@@ -7,6 +7,8 @@ import {
   BookCard,
   Info,
   Button,
+  Input,
+  Label,
   ButtonsContainer,
   Title,
 } from "./styles";
@@ -16,16 +18,24 @@ const App = () => {
   const [open, setOpen] = useState(false);
   const [action, setAction] = useState("");
   const [currentBook, setCurrentBook] = useState({});
+  const [searchInput, setSearchInput] = useState("");
 
   const getBooks = async () => {
     try {
-      const response = await axios.get('/book');
+      const response = await axios.get("/book");
       const { data } = response;
-      setBooks([...data]);
+      return data;
     } catch (error) {
       console.log(error.message);
     }
   };
+
+  useEffect(() => {
+    (async () => {
+      const loadedBooks = await getBooks();
+      setBooks([...loadedBooks]);
+    })();
+  }, []);
 
   useEffect(() => {
     const listBooks = () => {
@@ -54,9 +64,32 @@ const App = () => {
     setAction("add");
   };
 
+  useEffect(() => {
+    const handleSearch = async () => {
+      const newList = await getBooks();
+      if (!searchInput) return setBooks([...newList]);
+      setBooks(
+        [...newList].filter((b) =>
+          b.name.toLowerCase().includes(searchInput.toLowerCase())
+        )
+      );
+    };
+    handleSearch();
+  }, [searchInput]);
+
   return (
     <Container>
       <Title>Livraria Softeasy</Title>
+      <Label search>
+        {" "}
+        Pesquisar Livro
+        <Input
+          search
+          style={{ width: "3rem" }}
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+        />
+      </Label>
       <Section>
         <Button onClick={() => handleAddBookOnClick()} especial>
           +
@@ -69,7 +102,9 @@ const App = () => {
               <br />
               <Info>Autor: {book.author}</Info>
               <br />
-              <Info style={{textAlign: 'left'}}>Descrição: {book.description}</Info>
+              <Info style={{ textAlign: "left" }}>
+                Descrição: {book.description}
+              </Info>
               <Info>Avaliação: {book.rating}</Info>
               <ButtonsContainer>
                 <Button onClick={() => handleEditOnClick(book)} primary>

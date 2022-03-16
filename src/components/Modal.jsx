@@ -1,59 +1,51 @@
-import { useState, useEffect } from "react";
 import {
   ContainerModal,
   Form,
   Input,
+  Label,
+  Span,
   Button,
   CancelButton,
   ButtonsContainer,
 } from "../styles";
 import axios from "../services/axios";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const Modal = ({ currentBook, open, setOpen, action }) => {
-  const [inputs, setInputs] = useState({
-    name: "",
-    author: "",
-    description: "",
-    rating: "",
+  const formik = useFormik({
+    initialValues: {
+      name: action === "edit" ? currentBook.name : "",
+      author: action === "edit" ? currentBook.author : "",
+      description: action === "edit" ? currentBook.description : "",
+      rating: action === "edit" ? currentBook.rating : "",
+    },
+    enableReinitialize: true,
+    validationSchema:
+      action !== "delete" &&
+      Yup.object({
+        name: Yup.string().required("campo obrigatório"),
+        author: Yup.string().required("campo obrigatório"),
+        description: Yup.string().required("campo obrigatório"),
+        rating: Yup.number()
+          .min(1, "1 é a avaliação mínima")
+          .max(10, "10 é a avaliação máxima")
+          .required("campo obrigatório"),
+      }),
+    onSubmit: () => {
+      selectRequest();
+    },
   });
-
-  const handleInputsOnChange = (target) => {
-    setInputs({ ...inputs, [target.name]: target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    selectRequest();
-  };
-
-  useEffect(() => {
-    if (action !== "edit")
-      return setInputs({
-        name: "",
-        author: "",
-        description: "",
-        rating: "",
-      });
-
-    if (open) {
-      setInputs({
-        name: currentBook.name,
-        author: currentBook.author,
-        description: currentBook.description,
-        rating: currentBook.rating,
-      });
-    }
-  }, [open]);
 
   const selectRequest = () => {
     if (action === "add") return addBook();
     if (action === "edit") return editBook();
-    return eraseBook();
+    eraseBook();
   };
 
   const addBook = async () => {
     try {
-      await axios.post(`/book`, inputs);
+      await axios.post(`/book`, formik.values);
       return setOpen(false);
     } catch (error) {
       console.log(error.message);
@@ -62,9 +54,7 @@ const Modal = ({ currentBook, open, setOpen, action }) => {
 
   const editBook = async () => {
     try {
-      const response = await axios.put(`/book/${currentBook.id}`,
-        inputs
-      );
+      await axios.put(`/book/${currentBook.id}`, formik.values);
 
       return setOpen(false);
     } catch (error) {
@@ -74,8 +64,7 @@ const Modal = ({ currentBook, open, setOpen, action }) => {
 
   const eraseBook = async () => {
     try {
-      await axios.delete(`/book/${currentBook.id}`
-      );
+      await axios.delete(`/book/${currentBook.id}`);
       return setOpen(false);
     } catch (error) {
       console.log(error.message);
@@ -87,71 +76,73 @@ const Modal = ({ currentBook, open, setOpen, action }) => {
       onClick={() => setOpen(false)}
       style={{ display: `${open ? "flex" : "none"}` }}
     >
-      <Form
-        type="submit"
-        onSubmit={handleSubmit}
-        onClick={(e) => e.stopPropagation()}
-      >
+      <Form onSubmit={formik.handleSubmit} onClick={(e) => e.stopPropagation()}>
         {action !== "delete" ? (
           <>
-            <label htmlFor="name" style={{ fontSize: "2rem" }}>
+            <Label htmlFor="name">
               Nome
-            </label>
-            <Input
-              value={inputs.name}
-              onChange={(e) => handleInputsOnChange(e.target)}
-              type="text"
-              required
-              id="name"
-              name="name"
-            />
-            <label htmlFor="author" style={{ fontSize: "2rem" }}>
+              <Input
+                value={formik.values.name}
+                onChange={formik.handleChange}
+                type="text"
+                id="name"
+                name="name"
+                onBlur={formik.handleBlur}
+              />
+              {formik.errors && formik.touched.name ? (
+                <Span>{formik.errors.name}</Span>
+              ) : null}
+            </Label>
+            <Label htmlFor="author">
               Autor
-            </label>
-            <Input
-              onChange={(e) => handleInputsOnChange(e.target)}
-              value={inputs.author}
-              type="text"
-              id="author"
-              name="author"
-              required
-            />
-            <label htmlFor="description" style={{ fontSize: "2rem" }}>
+              <Input
+                value={formik.values.author}
+                onChange={formik.handleChange}
+                id="author"
+                name="author"
+                onBlur={formik.handleBlur}
+              />
+              {formik.errors && formik.touched.author ? (
+                <Span>{formik.errors.author}</Span>
+              ) : null}
+            </Label>
+            <Label htmlFor="description">
               Descrição
-            </label>
-            <Input
-              onChange={(e) => handleInputsOnChange(e.target)}
-              value={inputs.description}
-              type="text"
-              required
-              id="description"
-              name="description"
-            />
-            <label htmlFor="rating" style={{ fontSize: "2rem" }}>
+              <Input
+                value={formik.values.description}
+                onChange={formik.handleChange}
+                id="description"
+                name="description"
+                onBlur={formik.handleBlur}
+              />
+              {formik.errors && formik.touched.description ? (
+                <Span>{formik.errors.description}</Span>
+              ) : null}
+            </Label>
+            <Label htmlFor="rating">
               Avaliação
-            </label>
-            <Input
-              onChange={(e) => handleInputsOnChange(e.target)}
-              value={inputs.rating}
-              name="rating"
-              type="number"
-              required
-              min="1"
-              max="10"
-              id="rating"
-              style={{ textAlign: "center" }}
-            />
+              <Input
+                value={formik.values.rating}
+                onChange={formik.handleChange}
+                name="rating"
+                id="rating"
+                onBlur={formik.handleBlur}
+              />
+              {formik.errors && formik.touched.rating ? (
+                <Span>{formik.errors.rating}</Span>
+              ) : null}
+            </Label>
           </>
         ) : (
           <h2>Tem certeza que deseja excluir?</h2>
         )}
         <ButtonsContainer>
-          <Button primary action="submit">
+          <Button primary type="submit">
             {action === "edit" && "Atualizar"}
             {action === "delete" && "Sim"}
             {action === "add" && "Adicionar"}
           </Button>
-          <CancelButton secundary onClick={() => setOpen(false)} action="none">
+          <CancelButton secundary onClick={() => setOpen(false)}>
             {action === "delete" ? "Não" : "Cancelar"}
           </CancelButton>
         </ButtonsContainer>
