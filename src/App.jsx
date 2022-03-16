@@ -38,6 +38,13 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    (async () => {
+      const loadedBooks = await getBooks();
+      setBooks([...loadedBooks]);
+    })();
+  }, [open]);
+
+  useEffect(() => {
     const listBooks = () => {
       getBooks();
     };
