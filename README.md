@@ -1,9 +1,5 @@
 # Front-end do Teste Softeasy
-![Screenshot 2022-03-14 20 48 58](https://user-images.githubusercontent.com/85526418/158279698-f79f3920-cc79-4679-b352-44d44f1376f9.png)
-
-## Mobile
-
-![Screenshot 2022-03-14 20 49 55](https://user-images.githubusercontent.com/85526418/158279707-dddc754a-0927-4e4c-8de7-bf2839da637f.png)
+![image](https://user-images.githubusercontent.com/85526418/159100544-aaeb75b5-b253-41b0-81c0-40c740d28752.png)
 
 ### Instalação
 
