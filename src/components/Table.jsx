@@ -3,7 +3,7 @@ import {
     TableContainer,
     TableHead,
     TableLine
-  } from '../styles';
+  } from '../styles/table';
 import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
@@ -51,7 +51,8 @@ const Table = ({ books, setBooks, open, setOpen, action, setAction, getBooks }) 
   };
 
     return (
-        <TableContainer>
+       <div style={{overflowX: 'auto'}}>
+         <TableContainer>
           <TableHead>
             <span>Nome</span>
             <span>Autor</span>
@@ -97,9 +98,9 @@ const Table = ({ books, setBooks, open, setOpen, action, setAction, getBooks }) 
           setOpen={setOpen}
           action={action}
           setBooks={setBooks}
-          currentBook={currentBook}
         />
         </TableContainer>
+       </div>
     )
 }
 

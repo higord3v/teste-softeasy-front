@@ -2,7 +2,7 @@ import {
     HeaderContainer,
     H1,
     AddIconContainer,
-  } from '../styles';
+  } from '../styles/header';
   import { MdAddCircle } from 'react-icons/md';
 import logo from '../assets/logo.svg'
 

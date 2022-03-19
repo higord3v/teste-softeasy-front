@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import Header from './components/Header';
 import Table from './components/Table';
-import { Container, MainInput } from './styles';
+import { Container } from './styles/containers';
+import { MainInput } from './styles/input';
 import axios from './services/axios'
 
 const App = () => {

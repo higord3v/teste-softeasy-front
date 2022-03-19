@@ -1,16 +1,19 @@
 import axios from "../services/axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+
 import {
   ContainerModal,
   Form,
   Input,
   Label,
   Span,
+} from "../styles/modal";
+import {
   Button,
   CancelButton,
   ButtonsContainer,
-} from "../styles";
+} from "../styles/buttons";
 
 const Modal = ({ currentBook, open, setOpen, action }) => {
     const formik = useFormik({
@@ -148,7 +151,7 @@ const Modal = ({ currentBook, open, setOpen, action }) => {
               {action === "delete" && "Sim"}
               {action === "add" && "Adicionar"}
             </Button>
-            <CancelButton secundary onClick={() => setOpen(false)}>
+            <CancelButton primary onClick={() => setOpen(false)}>
               {action === "delete" ? "Não" : "Cancelar"}
             </CancelButton>
           </ButtonsContainer>
