@@ -10,7 +10,9 @@ export const ContainerModal = styled.div`
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.3);
-  transition: 1s
+  transition: opacity 0.3s;
+  opacity: ${({ isVisible }) => isVisible ? 1: 0};
+  pointer-events: ${({isVisible}) => isVisible ? 'auto': 'none'}
 `;
 
 export const Form = styled.form`
@@ -25,7 +27,10 @@ export const Form = styled.form`
   @media (max-width: 460px) {
     width: 70vw;
   }
+  width: ${({ action }) => action !== 'delete' && '375px'};
+  height: ${({ action }) => action !== 'delete' && '475px'};
 `;
+
 export const Input = styled.input`
   all: unset;
   padding: 0.2rem;

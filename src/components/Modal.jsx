@@ -90,10 +90,14 @@ const Modal = ({ currentBook, open, setOpen, action }) => {
 
   return (
       <ContainerModal
-      onClick={() => setOpen(false)}
-      style={{ display: `${open ? "flex" : "none"}` }}
+        onClick={() => setOpen(false)}
+        isVisible={open}
       >
-      <Form onSubmit={formik.handleSubmit} onClick={(e) => e.stopPropagation()}>
+      <Form 
+        onSubmit={formik.handleSubmit}
+        onClick={(e) => e.stopPropagation()}
+        action={action}
+      >
         {action !== "delete" ? (
           <>
             <Label htmlFor="name">
