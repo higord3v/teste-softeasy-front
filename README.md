@@ -1,4 +1,5 @@
 # Front-end do Teste Softeasy
+## Deploy: https://softeasy-bookshop.netlify.app/
 ![image](https://user-images.githubusercontent.com/85526418/159100544-aaeb75b5-b253-41b0-81c0-40c740d28752.png)
 
 ### Instalação
